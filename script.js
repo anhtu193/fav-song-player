@@ -21,48 +21,31 @@ async function fetchAndExtractMetadata(song) {
 				onSuccess: function (tag) {
 					const metadata = tag.tags;
 
-					// Create a detailed song object
 					const detailedSong = {
 						path: song.path,
 						title: metadata.title || "Unknown Title",
 						artist: metadata.artist || "Unknown Artist",
 						coverImage: metadata.picture
 							? getCoverImageUrl(metadata.picture)
-							: "assets/default.png", // Default image if no cover is found
+							: "assets/default.png",
 					};
 
-					resolve(detailedSong); // Resolve with the detailed song object
+					resolve(detailedSong);
 				},
 				onError: function (error) {
 					console.error(
 						`Error reading metadata for ${song.path}:`,
 						error
 					);
-
-					// Resolve with a fallback song object if metadata extraction fails
-					resolve({
-						path: song.path,
-						title: "Unknown Title",
-						artist: "Unknown Artist",
-						coverImage: "assets/default.png", // Default image
-					});
 				},
 			});
 		});
 	} catch (error) {
 		console.error(`Error fetching ${song.path}:`, error);
-
-		// Resolve with a fallback song object if fetching fails
-		return {
-			path: song.path,
-			title: "Unknown Title",
-			artist: "Unknown Artist",
-			coverImage: "assets/default.png", // Default image
-		};
 	}
 }
 
-// Function to display song information
+// Function to render song element
 function createSongElement(song) {
 	const songListElement = document.querySelector(".song-list");
 
@@ -102,7 +85,7 @@ function arrayBufferToBase64(buffer) {
 
 // Process all songs and render them in order
 async function processAndRenderSongs() {
-	// Fetch metadata for all songs in parallel
+	// Fetch metadata for all songs first
 	const detailedSongs = await Promise.all(
 		songs.map((song) => fetchAndExtractMetadata(song))
 	);
@@ -116,5 +99,4 @@ async function processAndRenderSongs() {
 	});
 }
 
-// Start processing and rendering
 processAndRenderSongs();
