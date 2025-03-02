@@ -34,16 +34,47 @@ body {
 	color: rgba(255, 255, 255, 0.9);
 }
 
-.song-list {
-	width: 100%;
-	height: 500px;
-	overflow: auto;
-	margin-top: 2rem;
-	background-color: wheat;
-	padding: 1rem;
+.song-item {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 1.5rem;
 }
 
-.song img {
-	width: 100px;
-	height: 100px;
+.song-list {
+	width: 100%;
+	height: 85dvh;
+	overflow: auto;
+	margin-top: 2rem;
+}
+
+.song {
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+	align-items: center;
+}
+
+.song-detail {
+	display: flex;
+	flex-direction: column;
+	color: rgba(255, 255, 255, 0.9);
+	gap: 5px;
+}
+
+.song-detail .song-title {
+	font-weight: 600;
+}
+
+.song .song-cover-image {
+	width: 75px;
+	height: 75px;
+	border-radius: 15px;
+}
+
+.song-item .song-divider {
+	width: 87%;
+	align-self: flex-end;
+	height: 2px;
+	background-color: rgba(145, 145, 145, 0.484);
 }
