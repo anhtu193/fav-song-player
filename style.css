@@ -12,6 +12,16 @@ body {
 	overflow: hidden;
 }
 
+::-webkit-scrollbar {
+	background-color: transparent;
+	width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgba(202, 198, 198, 0.484);
+	border-radius: 100px;
+}
+
 .container {
 	width: 49.9dvw;
 	height: 100dvh;
@@ -38,6 +48,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	cursor: pointer;
 	margin-bottom: 1.5rem;
 }
 

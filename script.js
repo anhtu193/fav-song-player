@@ -5,6 +5,7 @@ const songs = [
 	{ path: "assets/songs/ShayNanggg.mp3" },
 	{ path: "assets/songs/Friendzone.mp3" },
 	{ path: "assets/songs/WhenYouLookAtMe.mp3" },
+	{ path: "assets/songs/SojuLove.mp3" },
 ];
 
 // Detailed song list (will be populated later)
