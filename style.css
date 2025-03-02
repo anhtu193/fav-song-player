@@ -89,3 +89,119 @@ body {
 	height: 2px;
 	background-color: rgba(145, 145, 145, 0.484);
 }
+
+.media-player-page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 1rem;
+}
+
+.player-song-detail {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0.5rem;
+	align-items: center;
+	margin-top: 3rem;
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.player-song-detail .player-song-title {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.player-song-detail .player-song-artist {
+	font-size: 1.25rem;
+}
+
+.song-duration {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	margin-top: 2rem;
+
+	font-weight: 500;
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.song-duration .duration-divider {
+	height: 75%;
+	width: 2px;
+	background-color: rgba(255, 255, 255, 0.9);
+}
+
+.song-duration .duration {
+	color: #ebbe8b;
+}
+
+.progress-container {
+	width: 330px;
+	height: 330px;
+	transform: translateY(-30px);
+	position: relative;
+}
+
+.progress-ring {
+	transform: rotate(-90deg);
+	position: absolute;
+}
+
+.progress-ring circle {
+	fill: none;
+	stroke-width: 6;
+	stroke-linecap: round;
+}
+
+/* Background track */
+.track {
+	stroke: #4c3f35;
+	stroke-dasharray: 765;
+	transform-origin: center;
+	stroke-linecap: round;
+	transform: rotate(34deg);
+}
+
+/* Progress bar */
+.progress {
+	stroke: #f4a261;
+	stroke-dasharray: 880;
+	stroke-dashoffset: calc(
+		880 - (765 * 50) / 100
+	); /*50 is the progress value*/
+	transform-origin: center;
+	stroke-linecap: round;
+	transform: rotate(34deg);
+}
+
+.player-song-cover {
+	position: absolute;
+	width: 250px;
+	height: 250px;
+	border-radius: 50%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.player-control {
+	width: 40%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.player-control .previous,
+.player-control .next {
+	width: 35px;
+	height: 35px;
+	cursor: pointer;
+}
+
+.player-control .play {
+	width: 65px;
+	height: 65px;
+	cursor: pointer;
+}

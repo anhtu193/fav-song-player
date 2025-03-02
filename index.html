@@ -47,6 +47,61 @@
 			<div class="song-list"></div>
 		</div>
 		<div class="divider"></div>
-		<div class="container media-player-page"></div>
+		<div class="container media-player-page">
+			<div class="player-song-detail">
+				<span class="player-song-title">Can We Love</span>
+				<span class="player-song-artist">Obito</span>
+			</div>
+			<div class="song-duration">
+				<span class="current-time">00:00</span>
+				<div class="duration-divider"></div>
+				<span class="duration">00:00</span>
+			</div>
+			<div class="progress-container">
+				<svg
+					class="progress-ring"
+					width="330"
+					height="330"
+				>
+					<!-- Background track -->
+					<circle
+						class="track"
+						cx="165"
+						cy="165"
+						r="150"
+					/>
+					<!-- Progress bar -->
+					<circle
+						class="progress"
+						cx="165"
+						cy="165"
+						r="150"
+					/>
+				</svg>
+				<img
+					src="assets/test-cover.jpg"
+					alt="Song Cover"
+					class="player-song-cover"
+				/>
+			</div>
+			<div class="player-control">
+				<img
+					src="assets/back.png"
+					alt="Previous button"
+					class="previous"
+				/>
+				<img
+					src="assets/play.png"
+					alt="Play/Pause button"
+					class="play"
+					onclick="togglePlay"
+				/>
+				<img
+					src="assets/next.png"
+					alt="Next button"
+					class="next"
+				/>
+			</div>
+		</div>
 	</body>
 </html>

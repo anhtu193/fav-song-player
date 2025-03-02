@@ -101,3 +101,7 @@ async function processAndRenderSongs() {
 }
 
 processAndRenderSongs();
+
+const play = document.querySelector(".play");
+const previous = document.querySelector(".previous");
+const next = document.querySelector(".next");
