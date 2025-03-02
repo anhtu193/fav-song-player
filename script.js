@@ -88,7 +88,7 @@ function getSongCoverImageColor(base64Image) {
 }
 
 // Function to render song element
-function createSongElement(song) {
+function createSongElement(song, index) {
 	const songListElement = document.querySelector(".song-list");
 
 	const songItem = document.createElement("div");
@@ -104,6 +104,12 @@ function createSongElement(song) {
 			<div class="song-divider"></div>
 		</div>
     `;
+
+	songItem.addEventListener("click", () => {
+		songIndex = index;
+		loadMusic(songList[songIndex]);
+		playMusic();
+	});
 
 	songListElement.appendChild(songItem);
 }
@@ -151,8 +157,8 @@ async function processAndRenderSongs() {
 	console.log("Song List:", songList);
 
 	// Render the songs in order
-	detailedSongs.forEach((song) => {
-		createSongElement(song);
+	detailedSongs.forEach((song, index) => {
+		createSongElement(song, index);
 	});
 
 	loadMusic(songList[songIndex]);
@@ -221,12 +227,6 @@ function changeMusic(direction) {
 
 function updateProgressBar() {
 	const { duration, currentTime } = music;
-
-	// Ensure duration is a valid number
-	if (isNaN(duration)) {
-		console.error("Duration is not available yet.");
-		return;
-	}
 
 	// Calculate progress percentage
 	const progressPercent = (currentTime / duration) * 100;
