@@ -22,6 +22,7 @@ const previous = document.querySelector(".previous");
 const next = document.querySelector(".next");
 const background = document.querySelector(".media-player-page");
 const progress = document.querySelector(".progress");
+const track = document.querySelector(".track");
 
 const music = new Audio();
 let songIndex = 0;
@@ -193,7 +194,6 @@ async function loadMusic(song) {
 	// Wait for the 'loadedmetadata' event to get the duration
 	music.addEventListener("loadedmetadata", () => {
 		const { duration, currentTime } = music;
-		console.log("Duration:", duration, "Current Time:", currentTime);
 
 		const formatTime = (time) => String(Math.floor(time)).padStart(2, "0");
 		durationEl.textContent = `${formatTime(duration / 60)}:${formatTime(
@@ -221,14 +221,26 @@ function changeMusic(direction) {
 
 function updateProgressBar() {
 	const { duration, currentTime } = music;
+
+	// Ensure duration is a valid number
+	if (isNaN(duration)) {
+		console.error("Duration is not available yet.");
+		return;
+	}
+
+	// Calculate progress percentage
 	const progressPercent = (currentTime / duration) * 100;
 
-	const newDashOffset = 880 - (765 * progressPercent) / 100;
+	// Calculate new dash offset
+	const totalLength = 942; // Full circumference
+	const visibleLength = 753.6; // Visible part of the track
+	const newDashOffset = totalLength - (visibleLength * progressPercent) / 100;
 
-	progress.setAttribute("stroke-dashoffset", newDashOffset);
+	// Update the progress bar
+	progress.style.strokeDashoffset = newDashOffset;
 
+	// Update the time display
 	const formatTime = (time) => String(Math.floor(time)).padStart(2, "0");
-
 	durationEl.textContent = `${formatTime(duration / 60)}:${formatTime(
 		duration % 60
 	)}`;
@@ -237,14 +249,29 @@ function updateProgressBar() {
 	)}`;
 }
 
+function seekToPercentage(percentage) {
+	if (isNaN(music.duration)) {
+		console.error("Song duration is not available.");
+		return;
+	}
+
+	// Calculate the new current time
+	const newCurrentTime = (music.duration * percentage) / 100;
+
+	// Update the song's current time
+	music.currentTime = newCurrentTime;
+
+	// Manually update the progress bar
+	updateProgressBar();
+}
+
 play.addEventListener("click", () => togglePlay());
 previous.addEventListener("click", () => changeMusic(-1));
 next.addEventListener("click", () => changeMusic(1));
 music.addEventListener("ended", () => changeMusic(1));
-music.addEventListener("timeupdate", updateProgressBar);
+music.addEventListener("timeupdate", () => updateProgressBar());
 music.addEventListener("loadedmetadata", () => {
 	const { duration, currentTime } = music;
-	console.log("Duration:", duration, "Current Time:", currentTime);
 
 	const formatTime = (time) => String(Math.floor(time)).padStart(2, "0");
 	durationEl.textContent = `${formatTime(duration / 60)}:${formatTime(
@@ -253,4 +280,41 @@ music.addEventListener("loadedmetadata", () => {
 	currentTimeEl.textContent = `${formatTime(currentTime / 60)}:${formatTime(
 		currentTime % 60
 	)}`;
+});
+track.addEventListener("click", (event) => {
+	// Get the bounding box of the track
+	const rect = track.getBoundingClientRect();
+
+	// Calculate the click position relative to the center of the circle
+	const clickX = event.clientX - rect.left - rect.width / 2;
+	const clickY = event.clientY - rect.top - rect.height / 2;
+
+	// Convert Cartesian coordinates to polar coordinates (angle)
+	const angle = Math.atan2(clickY, clickX); // Angle in radians
+
+	// Adjust for the rotation (-55deg in CSS)
+	const rotationOffset = (-55 * Math.PI) / 180; // Convert degrees to radians
+	let normalizedAngle =
+		(angle - rotationOffset + Math.PI * 2) % (Math.PI * 2);
+
+	// Calculate the progress percentage based on the full circle
+	let progressPercent = (normalizedAngle / (Math.PI * 2)) * 100;
+
+	// Adjust for the gap
+	const totalLength = 942; // Full circumference
+	const visibleLength = 753.6; // Visible part of the track
+
+	// Map the progress percentage to the visible part of the track
+	const adjustedProgressPercent =
+		(progressPercent * totalLength) / visibleLength;
+
+	// Ensure the adjusted progress percentage is within bounds
+	if (adjustedProgressPercent > 100) {
+		progressPercent = 100;
+	} else {
+		progressPercent = adjustedProgressPercent;
+	}
+
+	// Seek to the calculated percentage of the song's duration
+	seekToPercentage(progressPercent);
 });

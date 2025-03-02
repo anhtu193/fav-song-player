@@ -95,6 +95,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 	padding: 1rem;
+	user-select: none;
 }
 
 .player-song-detail {
@@ -145,8 +146,12 @@ body {
 }
 
 .progress-ring {
-	transform: rotate(-90deg);
 	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
 }
 
 .progress-ring circle {
@@ -158,22 +163,25 @@ body {
 /* Background track */
 .track {
 	stroke: #4c3f35;
-	stroke-dasharray: 765;
+	stroke-dasharray: 753.6;
 	transform-origin: center;
 	stroke-linecap: round;
-	transform: rotate(34deg);
+	transform: rotate(-55deg);
+	cursor: pointer;
 }
 
 /* Progress bar */
 .progress {
 	stroke: #f4a261;
-	stroke-dasharray: 880;
+	stroke-dasharray: 942;
 	stroke-dashoffset: calc(
-		880 - (765 * 50) / 100
-	); /*50 is the progress value*/
+		942 - (753.6 * 0) / 100
+	); /*0 is the progress value / default value */
 	transform-origin: center;
 	stroke-linecap: round;
-	transform: rotate(34deg);
+	transform: rotate(-55deg);
+	transition: stroke-dashoffset 0.1s linear;
+	pointer-events: none;
 }
 
 .player-song-cover {
@@ -184,6 +192,7 @@ body {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	z-index: 1;
 }
 
 .player-control {
