@@ -6,6 +6,7 @@ const songs = [
 	{ path: "assets/songs/Friendzone.mp3" },
 	{ path: "assets/songs/WhenYouLookAtMe.mp3" },
 	{ path: "assets/songs/SojuLove.mp3" },
+	{ path: "assets/songs/YourSmile.mp3" },
 ];
 
 // Detailed song list (will be populated later)
@@ -23,10 +24,13 @@ const next = document.querySelector(".next");
 const background = document.querySelector(".media-player-page");
 const progress = document.querySelector(".progress");
 const track = document.querySelector(".track");
+const durationDivider = document.querySelector(".duration-divider");
 
 const music = new Audio();
+let textColor = "rgba(0,0,0,0.8)";
 let songIndex = 0;
 let isPlaying = false;
+let isFirstLoad = true;
 
 // Function to fetch a file and extract metadata
 async function fetchAndExtractMetadata(song) {
@@ -175,13 +179,26 @@ function togglePlay() {
 
 function playMusic() {
 	isPlaying = true;
-	play.src = "assets/pause.png";
+	const backgroundColor = window.getComputedStyle(background).backgroundColor;
+	textColor = getContrastTextColor(backgroundColor);
+	if (textColor === "rgba(0,0,0,0.8)") {
+		play.src = "assets/pause-dark.png";
+	} else if (textColor === "rgba(255,255,255,0.8)") {
+		play.src = "assets/pause.png";
+	}
+
 	music.play();
 }
 
 function pauseMusic() {
 	isPlaying = false;
-	play.src = "assets/play.png";
+	const backgroundColor = window.getComputedStyle(background).backgroundColor;
+	textColor = getContrastTextColor(backgroundColor);
+	if (textColor === "rgba(0,0,0,0.8)") {
+		play.src = "assets/play-dark.png";
+	} else if (textColor === "rgba(255,255,255,0.8)") {
+		play.src = "assets/play.png";
+	}
 	music.pause();
 }
 
@@ -215,6 +232,7 @@ async function loadMusic(song) {
 		const dominantColor = await getSongCoverImageColor(song.coverImage);
 		const colorString = `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`;
 		background.style.backgroundColor = colorString;
+		updateTextColor(background);
 	} catch (error) {
 		console.error("Error extracting dominant color:", error);
 	}
@@ -265,6 +283,46 @@ function seekToPercentage(percentage) {
 	updateProgressBar();
 }
 
+function getLuminance(color) {
+	// Convert the color to RGB values
+	const rgb = color.match(/\d+/g);
+	const r = parseInt(rgb[0]);
+	const g = parseInt(rgb[1]);
+	const b = parseInt(rgb[2]);
+
+	// Calculate the luminance
+	const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+	console.log(luminance);
+	return luminance;
+}
+
+function getContrastTextColor(backgroundColor) {
+	const luminance = getLuminance(backgroundColor);
+	return luminance > 0.5 ? "rgba(0,0,0,0.8)" : "rgba(255,255,255,0.8)";
+}
+
+function updateTextColor(divElement) {
+	const backgroundColor = window.getComputedStyle(divElement).backgroundColor;
+	textColor = getContrastTextColor(backgroundColor);
+	divElement.style.color = textColor;
+	durationDivider.style.backgroundColor = textColor;
+	if (textColor === "rgba(0,0,0,0.8)") {
+		next.src = "assets/next-dark.png";
+		previous.src = "assets/back-dark.png";
+		// If the page is first load then the first song don't autoplay so set the src correctly
+		isFirstLoad === true
+			? (play.src = "assets/play-dark.png")
+			: (play.src = "assets/pause-dark.png");
+	} else if (textColor === "rgba(255,255,255,0.8)") {
+		next.src = "assets/next.png";
+		previous.src = "assets/back.png";
+		isFirstLoad === true
+			? (play.src = "assets/play.png")
+			: (play.src = "assets/pause.png");
+	}
+}
+
+// Event Listeners
 play.addEventListener("click", () => togglePlay());
 previous.addEventListener("click", () => changeMusic(-1));
 next.addEventListener("click", () => changeMusic(1));
@@ -318,3 +376,12 @@ track.addEventListener("click", (event) => {
 	// Seek to the calculated percentage of the song's duration
 	seekToPercentage(progressPercent);
 });
+document.addEventListener(
+	"click",
+	() => {
+		if (isFirstLoad) {
+			isFirstLoad = false;
+		}
+	},
+	{ once: true } // When the user click the whole web the first time, remove this event
+);

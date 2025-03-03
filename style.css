@@ -95,6 +95,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 	padding: 1rem;
+	color: black;
 	user-select: none;
 }
 
@@ -105,7 +106,6 @@ body {
 	gap: 0.5rem;
 	align-items: center;
 	margin-top: 3rem;
-	color: rgba(255, 255, 255, 0.9);
 }
 
 .player-song-detail .player-song-title {
@@ -123,9 +123,7 @@ body {
 	align-items: center;
 	gap: 10px;
 	margin-top: 2rem;
-
 	font-weight: 500;
-	color: rgba(255, 255, 255, 0.9);
 }
 
 .song-duration .duration-divider {
