@@ -206,7 +206,7 @@ body {
 
 .progress-ring circle {
 	fill: none;
-	stroke-width: 6;
+	stroke-width: 8;
 	stroke-linecap: round;
 }
 
