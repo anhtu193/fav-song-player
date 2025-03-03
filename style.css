@@ -13,6 +13,24 @@ body {
 	overflow: hidden;
 }
 
+#loading-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 1);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.loading-icon {
+	width: 100px;
+	height: 100px;
+}
+
 @media (max-width: 880px) {
 	body {
 		overflow: auto;

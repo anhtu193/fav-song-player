@@ -135,37 +135,51 @@ function arrayBufferToBase64(buffer) {
 	return window.btoa(binary);
 }
 
+function showLoadingIcon() {
+	const loadingOverlay = document.getElementById("loading-overlay");
+	if (loadingOverlay) {
+		loadingOverlay.style.display = "flex";
+	}
+}
+
+function hideLoadingIcon() {
+	const loadingOverlay = document.getElementById("loading-overlay");
+	if (loadingOverlay) {
+		loadingOverlay.style.display = "none";
+	}
+}
+
 // Process all songs and render them in order
 async function processAndRenderSongs() {
-	// Fetch metadata for all songs first
-	const results = await Promise.allSettled(
-		songs.map((song) => fetchAndExtractMetadata(song))
-	);
+	showLoadingIcon();
+	try {
+		const results = await Promise.allSettled(
+			songs.map((song) => fetchAndExtractMetadata(song))
+		);
 
-	// Filter out successful results
-	const detailedSongs = results
-		.filter((result) => result.status === "fulfilled")
-		.map((result) => result.value);
+		const detailedSongs = results
+			.filter((result) => result.status === "fulfilled")
+			.map((result) => result.value);
 
-	// Log any errors
-	results.forEach((result) => {
-		if (result.status === "rejected") {
-			console.error("Error processing song:", result.reason);
-		}
-	});
+		results.forEach((result) => {
+			if (result.status === "rejected") {
+				console.error("Error processing song:", result.reason);
+			}
+		});
 
-	// Add the detailed songs to the songList array
-	songList.push(...detailedSongs);
+		songList.push(...detailedSongs);
+		console.log("Song List:", songList);
 
-	// Log the songList for debugging
-	console.log("Song List:", songList);
+		detailedSongs.forEach((song, index) => {
+			createSongElement(song, index);
+		});
 
-	// Render the songs in order
-	detailedSongs.forEach((song, index) => {
-		createSongElement(song, index);
-	});
-
-	loadMusic(songList[songIndex]);
+		loadMusic(songList[songIndex]);
+	} catch (error) {
+		console.error("Error processing songs:", error);
+	} finally {
+		hideLoadingIcon(); // Hide loading icon when done
+	}
 }
 processAndRenderSongs();
 
