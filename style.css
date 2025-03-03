@@ -3,6 +3,7 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	scroll-behavior: smooth;
 }
 
 body {
@@ -10,6 +11,33 @@ body {
 	display: flex;
 	flex-direction: row;
 	overflow: hidden;
+}
+
+@media (max-width: 880px) {
+	body {
+		overflow: auto;
+		flex-direction: column-reverse;
+	}
+
+	.divider {
+		display: none;
+		width: 0vw;
+		height: 0vh;
+		background-color: white;
+	}
+
+	.container {
+		width: 100vw !important;
+		height: auto;
+	}
+
+	.player-control {
+		gap: 3rem !important;
+	}
+
+	.arrow {
+		display: block !important;
+	}
 }
 
 ::-webkit-scrollbar {
@@ -23,19 +51,23 @@ body {
 }
 
 .container {
-	width: 49.9dvw;
-	height: 100dvh;
+	width: 49.9vw;
+	height: 100vh;
 	background-color: gray;
 }
 
 .divider {
-	width: 0.2dvw;
-	height: 100dvh;
+	width: 0.2vw;
+	height: 100vh;
 	background-color: white;
 }
 
 .song-list-page {
 	padding: 2rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-self: center;
 	background-color: #212121;
 }
 
@@ -94,6 +126,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	padding: 1rem;
 	color: black;
 	user-select: none;
@@ -105,7 +138,6 @@ body {
 	justify-content: center;
 	gap: 0.5rem;
 	align-items: center;
-	margin-top: 3rem;
 }
 
 .player-song-detail .player-song-title {
@@ -194,10 +226,10 @@ body {
 }
 
 .player-control {
-	width: 40%;
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
+	gap: 5rem;
 }
 
 .player-control .previous,
@@ -211,4 +243,13 @@ body {
 	width: 65px;
 	height: 65px;
 	cursor: pointer;
+}
+
+.arrow {
+	position: absolute;
+	height: 2rem;
+	width: 2rem;
+	left: 1.5rem;
+	top: 1.5rem;
+	display: none;
 }
