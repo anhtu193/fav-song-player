@@ -112,7 +112,13 @@ function createSongElement(song, index) {
 	songItem.addEventListener("click", () => {
 		songIndex = index;
 		loadMusic(songList[songIndex]);
+
 		playMusic();
+
+		// Scroll to the #media-player section
+		document
+			.querySelector("#media-player")
+			.scrollIntoView({ behavior: "smooth" });
 	});
 
 	songListElement.appendChild(songItem);
