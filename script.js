@@ -4,7 +4,6 @@ const songs = [
 	{ path: "assets/songs/Lost.mp3" },
 	{ path: "assets/songs/ShayNanggg.mp3" },
 	{ path: "assets/songs/SojuLove.mp3" },
-	{ path: "assets/songs/HappyBirthdayToYou.mp3" },
 	{ path: "assets/songs/ChimSoul.mp3" },
 	{ path: "assets/songs/DungLamTraiTimAnhDauRemake.mp3" },
 	{ path: "assets/songs/NgoaiLeCuaNhau.mp3" },
