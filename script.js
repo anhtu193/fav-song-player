@@ -238,7 +238,10 @@ async function loadMusic(song) {
 	music.addEventListener("loadedmetadata", () => {
 		const { duration, currentTime } = music;
 
-		const formatTime = (time) => String(Math.floor(time)).padStart(2, "0");
+		const formatTime = (time) => {
+			if (isNaN(time)) return "00"; // Fallback for NaN values
+			return String(Math.floor(time)).padStart(2, "0");
+		};
 		durationEl.textContent = `${formatTime(duration / 60)}:${formatTime(
 			duration % 60
 		)}`;
@@ -351,7 +354,10 @@ music.addEventListener("timeupdate", () => updateProgressBar());
 music.addEventListener("loadedmetadata", () => {
 	const { duration, currentTime } = music;
 
-	const formatTime = (time) => String(Math.floor(time)).padStart(2, "0");
+	const formatTime = (time) => {
+		if (isNaN(time)) return "00"; // Fallback for NaN values
+		return String(Math.floor(time)).padStart(2, "0");
+	};
 	durationEl.textContent = `${formatTime(duration / 60)}:${formatTime(
 		duration % 60
 	)}`;
