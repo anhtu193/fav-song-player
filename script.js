@@ -8,7 +8,6 @@ const songs = [
 	{ path: "assets/songs/ChimSoul.mp3" },
 	{ path: "assets/songs/DungLamTraiTimAnhDauRemake.mp3" },
 	{ path: "assets/songs/NgoaiLeCuaNhau.mp3" },
-	{ path: "assets/songs/BUSINESSMODE.mp3" },
 ];
 
 // Detailed song list (will be populated later)
