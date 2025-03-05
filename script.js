@@ -25,6 +25,7 @@ const background = document.querySelector(".media-player-page");
 const progress = document.querySelector(".progress");
 const track = document.querySelector(".track");
 const durationDivider = document.querySelector(".duration-divider");
+const menu = document.querySelector(".menu");
 
 const music = new Audio();
 let textColor = "rgba(0,0,0,0.8)";
@@ -332,6 +333,7 @@ function updateTextColor(divElement) {
 	if (textColor === "rgba(0,0,0,0.8)") {
 		next.src = "assets/next-dark.png";
 		previous.src = "assets/back-dark.png";
+		menu.src = "assets/menu.png";
 		// If the page is first load then the first song don't autoplay so set the src correctly
 		isFirstLoad === true
 			? (play.src = "assets/play-dark.png")
@@ -339,6 +341,7 @@ function updateTextColor(divElement) {
 	} else if (textColor === "rgba(255,255,255,0.8)") {
 		next.src = "assets/next.png";
 		previous.src = "assets/back.png";
+		menu.src = "assets/menu-dark.png";
 		isFirstLoad === true
 			? (play.src = "assets/play.png")
 			: (play.src = "assets/pause.png");
